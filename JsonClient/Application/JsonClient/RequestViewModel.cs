@@ -139,23 +139,30 @@ namespace JsonWPFClient
                     }
                 case "POST":
                     {
-                        Result = await JsonClient.JsonClient.PostAsync(Uri, JsonContent);
+                        Result = await JsonClient.JsonClient.PostJsonAsync(Uri, JsonContent);
                         break;
                     }
                 case "PUT":
                     {
-                        Result = await JsonClient.JsonClient.PutAsync(Uri, JsonContent);
+                        Result = await JsonClient.JsonClient.PutJsonAsync(Uri, JsonContent);
                         break;
                     }
                 case "DELETE":
                     {
-                        Result = await JsonClient.JsonClient.DeleteAsync(Uri, JsonContent);
+                        Result = await JsonClient.JsonClient.DeleteAsync(Uri);
                         break;
                     }
             }
 
-            StatusCode = (int)Result.Respose.StatusCode;
-            StatusCodeDescription = Result.Respose.StatusDescription;
+            if(Result.Response != null)
+            {
+                StatusCode = (int)Result.Response.StatusCode;
+                StatusCodeDescription = Result.Response.StatusDescription;
+            }
+            else
+            {
+                StatusCodeDescription = Result.Error.GetType().ToString();
+            }
 
             IsBusy = false;
         }

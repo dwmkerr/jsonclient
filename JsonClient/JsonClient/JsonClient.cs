@@ -14,113 +14,133 @@ namespace JsonClient
         public static JsonResult Get(string url)
         {
             //  Send the request with the correct verb.
-            return SendRequest(url, "GET", null);
+            return SendRequest(url, "GET", null, null);
         }
 
         public static async Task<JsonResult> GetAsync(string url)
         {
             //  Send the request with the correct verb.
-            return await SendRequestAsync(url, "GET", null);
+            return await SendRequestAsync(url, "GET", null, null);
         }
 
         public static JsonResult Post(string url, object data)
         {
             //  Send the request with the correct verb.
-            return SendRequest(url, "POST", data);
+            return SendRequest(url, "POST", data, null);
         }
 
         public static async Task<JsonResult> PostAsync(string url, object data)
         {
             //  Send the request with the correct verb.
-            return await SendRequestAsync(url, "POST", data);
+            return await SendRequestAsync(url, "POST", data, null);
+        }
+
+        public static JsonResult PostJson(string url, string json)
+        {
+            //  Send the request with the correct verb.
+            return SendRequest(url, "POST", null, json);
+        }
+
+        public static async Task<JsonResult> PostJsonAsync(string url, string json)
+        {
+            //  Send the request with the correct verb.
+            return await SendRequestAsync(url, "POST", null, json);
         }
 
         public static JsonResult Put(string url, object data)
         {
             //  Send the request with the correct verb.
-            return SendRequest(url, "PUT", data);
+            return SendRequest(url, "PUT", data, null);
         }
 
         public static async Task<JsonResult> PutAsync(string url, object data)
         {
             //  Send the request with the correct verb.
-            return await SendRequestAsync(url, "PUT", data);
+            return await SendRequestAsync(url, "PUT", data, null);
         }
 
-        public static JsonResult Delete(string url, object data)
+        public static JsonResult PutJson(string url, string json)
         {
             //  Send the request with the correct verb.
-            return SendRequest(url, "DELETE", data);
+            return SendRequest(url, "PUT", null, json);
         }
-        public static async Task<JsonResult> DeleteAsync(string url, object data)
+
+        public static async Task<JsonResult> PutJsonAsync(string url, string json)
         {
             //  Send the request with the correct verb.
-            return await SendRequestAsync(url, "DELETE", data);
+            return await SendRequestAsync(url, "PUT", null, json);
         }
 
-
-        private static JsonResult ProcessResponse(HttpWebResponse response)
+        public static JsonResult Delete(string url)
         {
-            //  sensible in all cases?
-            if (response.StatusCode != HttpStatusCode.OK)
+            //  Send the request with the correct verb.
+            return SendRequest(url, "DELETE", null, null);
+        }
+        public static async Task<JsonResult> DeleteAsync(string url)
+        {
+            //  Send the request with the correct verb.
+            return await SendRequestAsync(url, "DELETE", null, null);
+        }
+
+        private static JsonResult SendRequest(string url, string verb, object contentData, string contentJson)
+        {
+            //  Create the request, process the response.
+            try
             {
-                string message = String.Format("GET failed. Received HTTP {0}", response.StatusCode);
-                throw new ApplicationException(message);
+                var request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = verb;
+                SetRequestContent(request, contentData, contentJson);
+
+                //  Get and process the response.
+                using (var response = (HttpWebResponse)request.GetResponse())
+                    return new JsonResult(response);
             }
-
-            //  Create a result object.
-            return new JsonResult(response);
-        }
-
-        private static JsonResult SendRequest(string url, string verb, object content)
-        {
-            //  Create the request, process the response.
-            var request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = verb;
-            SetRequestContent(request, content);
-
-            //  Get and process the response.
-            using (var response = (HttpWebResponse)request.GetResponse())
-                return ProcessResponse(response);
-        }
-
-        private static async Task<JsonResult> SendRequestAsync(string url, string verb, object content)
-        {
-            //  Create the request, process the response.
-            var request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = verb;
-            request = await SetRequestContentAsync(request, content);
-
-            using (var response = (HttpWebResponse)await request.GetResponseAsync())
-                return ProcessResponse(response);
-        }
-
-        private static void SetRequestContent(HttpWebRequest request, object content)
-        {
-            request.ContentLength = 0;
-            request.ContentType = "application/json";
-
-            if (content != null)
+            catch (Exception exception)
             {
-                var jsonContent = Json.Encode(content);
-                request.ContentLength = jsonContent.Length;
-                using (var stream = request.GetRequestStream())
-                using (var writer = new StreamWriter(stream))
-                {
-                    writer.Write(jsonContent);
-                }
+return new JsonResult(exception);
             }
         }
 
-        private static async Task<HttpWebRequest> SetRequestContentAsync(HttpWebRequest request, object content)
+        private static async Task<JsonResult> SendRequestAsync(string url, string verb, object contentData, string contentJson)
         {
-            request.ContentLength = 0;
-            request.ContentType = "application/json";
-
-            if (content != null)
+            //  Create the request, process the response.
+            try
             {
-                var jsonContent = Json.Encode(content);
+                var request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = verb;
+                request = await SetRequestContentAsync(request, contentData, contentJson);
+
+                using (var response = (HttpWebResponse)await request.GetResponseAsync())
+                    return new JsonResult(response);
+            }
+            catch (Exception exception)
+            {
+                return new JsonResult(exception);
+            }
+        }
+
+        private static void SetRequestContent(HttpWebRequest request, object contentData, string contentJson)
+        {
+            if (contentData == null && contentJson == null)
+                return;
+            
+            var jsonContent = contentJson ?? Json.Encode(contentData);
+            request.ContentLength = jsonContent.Length;
+            request.ContentType = "application/json";
+            using (var stream = request.GetRequestStream())
+            using (var writer = new StreamWriter(stream))
+            {
+                writer.Write(jsonContent);
+            }
+        }
+
+        private static async Task<HttpWebRequest> SetRequestContentAsync(HttpWebRequest request, object contentData, string contentJson)
+        {
+            if (contentData != null || contentJson != null)
+            {
+                var jsonContent = contentJson ?? Json.Encode(contentData);
                 request.ContentLength = jsonContent.Length;
+                request.ContentType = "application/json";
                 using (var stream = await request.GetRequestStreamAsync())
                 using (var writer = new StreamWriter(stream))
                 {
@@ -129,86 +149,6 @@ namespace JsonClient
             }
 
             return request;
-        }
-    }
-
-    public class JsonResult
-    {
-        internal JsonResult(HttpWebResponse response)
-        {
-            ReadContent(response);
-            CopyResponseData(response);
-            lazyDynamic = new Lazy<dynamic>(() => string.IsNullOrEmpty(Json) ? null : System.Web.Helpers.Json.Decode(Json));
-        }
-
-        private void ReadContent(HttpWebResponse response)
-        {
-            //  Do we have response content?
-            string json = null;
-            if (response.ContentLength > 0)
-            {
-                //  Read get the response stream.  
-                using (var responseStream = response.GetResponseStream())
-                {
-                    //  todo is the valid here?
-                    if (responseStream == null)
-                        throw new InvalidOperationException("Invalid response stream.");
-                    using (var reader = new StreamReader(responseStream))
-                    {
-                        json = reader.ReadToEnd();
-                    }
-                }
-            }
-            Json = json;
-        }
-
-        private void CopyResponseData(HttpWebResponse response)
-        {
-            Respose = new Response
-                          {
-                              CharacterSet = response.CharacterSet,
-                              ContentEncoding = response.ContentEncoding,
-                              ContentLength = response.ContentLength,
-                              ContentType = response.ContentType,
-                              Cookies = response.Cookies,
-                              Headers = response.Headers,
-                              IsMutuallyAuthenticated = response.IsMutuallyAuthenticated,
-                              LastModified = response.LastModified,
-                              Method = response.Method,
-                              ProtocolVersion = response.ProtocolVersion,
-                              ResponseUri = response.ResponseUri,
-                              Server = response.Server,
-                              StatusCode = response.StatusCode,
-                              StatusDescription = response.StatusDescription,
-                              SupportsHeaders = response.SupportsHeaders
-                          };
-        }
-
-        private readonly Lazy<dynamic> lazyDynamic;
-
-        public string Json { get; internal set; }
-
-        public dynamic Dynamic { get { return lazyDynamic.Value; } }
-
-        public Response Respose { get; internal set; }
-
-        public class Response
-        {
-            public string CharacterSet { get; internal set;}
-            public string ContentEncoding { get; internal set;}
-            public long ContentLength { get; internal set;}
-            public string ContentType { get; internal set;}
-            public CookieCollection Cookies { get; internal set; }
-            public WebHeaderCollection Headers { get; internal set;}
-            public bool IsMutuallyAuthenticated { get; internal set;}
-            public DateTime LastModified { get; internal set;}
-            public string Method { get; internal set;}
-            public Version ProtocolVersion { get; internal set;}
-            public Uri ResponseUri { get; internal set;}
-            public string Server { get; internal set;}
-            public HttpStatusCode StatusCode { get; internal set;}
-            public string StatusDescription { get; internal set;}
-            public bool SupportsHeaders { get; internal set;}
         }
     }
 }

@@ -104,6 +104,7 @@ namespace JsonWPFClient
             var request = new RequestViewModel {Uri = CurrentUrl, Verb = verb, JsonContent = CurrentContent};
             Requests.Add(request);
             request.DoRequestCommand.DoExecute();
+            SelectedRequest = request;
 
             //  Save the command for the last url.
             Properties.Settings.Default.LastUrl = CurrentUrl;

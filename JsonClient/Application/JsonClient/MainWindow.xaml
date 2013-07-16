@@ -48,13 +48,8 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="Url" Width="200">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Uri}"></TextBlock>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                            <GridViewColumn Header="Verb" Width="60" DisplayMemberBinding="{Binding Verb}" />
+                            <GridViewColumn Header="Url" Width="200" DisplayMemberBinding="{Binding Uri}" />
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -94,7 +89,7 @@
                     <Button Grid.Column="5" Margin="4,0,0,0" Width="40" Command="{Binding SendRequestCommand}" CommandParameter="DELETE">_Delete</Button>
                 </apexControls:ApexGrid>
             </apexControls:PaddedGrid>
-                <TextBox Grid.Row="1" AcceptsReturn="True" Text="{Binding CurrentContent}"></TextBox>
+                <TextBox Grid.Row="1" AcceptsReturn="True" FontFamily="Consolas" Text="{Binding CurrentContent}"></TextBox>
             
         </apexControls:ApexGrid>
         </apexControls:PaddedGrid>
