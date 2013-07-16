@@ -16,67 +16,87 @@
     </Window.Resources>
     <apexControls:ApexGrid Rows="400,Auto,*">
         
-        <ListView ItemsSource="{Binding Requests}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Status">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <apexControls:ApexGrid>
-                                    <apexControls:CircularProgressBar 
-                                        Width="16" Height="16"
-                                        Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                    <apexControls:ApexGrid Columns="Auto,Auto"
+        <!-- The top section, requests and details. -->
+        <apexControls:ApexGrid Columns="400,Auto,*">
+            
+            <apexControls:PaddedGrid Padding="4" Rows="Auto,*">
+                <TextBlock TextWrapping="Wrap">
+                    <Run FontSize="20" FontWeight="SemiBold">Requests</Run> 
+                    <Run FontSize="10" Foreground="#999999">All requests sent are shown below</Run>
+                </TextBlock>
+                <ListView Grid.Row="1" ItemsSource="{Binding Requests}" SelectedItem="{Binding SelectedRequest}">
+                    <ListView.Resources>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.Resources>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Status" Width="60">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <apexControls:ApexGrid HorizontalAlignment="Stretch">
+                                            <TextBlock 
+                                            Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                            HorizontalAlignment="Center" VerticalAlignment="Center" Text="Working..."/>
+                                            <apexControls:ApexGrid Rows="Auto,Auto"
                                         Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Invert}" >
-                                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Text="{Binding StatusCode}" />
-                                        <TextBlock HorizontalAlignment="Center" Text="{Binding StatusCodeDescription}" />
-                                    </apexControls:ApexGrid>
-                                    </apexControls:ApexGrid>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Url">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Uri}"></TextBlock>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Response">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Uri}"></TextBlock>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Content">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Response.Json, Mode=OneWay}"></TextBlock>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                                                <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Text="{Binding StatusCode}" />
+                                                <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="{Binding StatusCodeDescription}" />
+                                            </apexControls:ApexGrid>
+                                        </apexControls:ApexGrid>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Url" Width="200">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Uri}"></TextBlock>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </apexControls:PaddedGrid>
+            
+            <GridSplitter Grid.Column="1" Width="5" ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" />
+
+            <apexControls:PaddedGrid Grid.Column="2" Padding="4" Rows="Auto,*">
+                <TextBlock TextWrapping="Wrap">
+                    <Run FontSize="20" FontWeight="SemiBold">Details</Run> 
+                    <Run FontSize="10" Foreground="#999999">Select a request to see it's details</Run>
+                </TextBlock>
+                <TextBox 
+                    Grid.Row="1" IsReadOnly="True" Text="{Binding SelectedRequest.Result.Json, Mode=OneWay}" 
+                    VerticalScrollBarVisibility="Auto" FontFamily="Consolas" />
+            </apexControls:PaddedGrid>
+
+        </apexControls:ApexGrid>
         
-        <GridSplitter Grid.Row="1" Height="5" ResizeBehavior="PreviousAndNext" ResizeDirection="Rows"></GridSplitter>
-        
-        <apexControls:ApexGrid Grid.Row="2" Rows="Auto,*">
+
+        <GridSplitter Grid.Row="1" Height="5" Background="#eeeeee" ResizeBehavior="PreviousAndNext" ResizeDirection="Rows"></GridSplitter>
+
+        <apexControls:PaddedGrid Grid.Row="2" Padding="4" Rows="Auto,*">
+            <TextBlock TextWrapping="Wrap">
+                    <Run FontSize="20" FontWeight="SemiBold">Create Request</Run> 
+                    <Run FontSize="10" Foreground="#999999">Enter the url, content and click a verb to send the request</Run>
+            </TextBlock>
+            <apexControls:ApexGrid Grid.Row="2" Rows="Auto,*">
             
             <apexControls:PaddedGrid Grid.Row="0" Padding="4" >
                 <apexControls:ApexGrid Columns="Auto,*,Auto,Auto,Auto,Auto">
-                    <Label Grid.Column="0">URI:</Label>
-                    <TextBox Grid.Column="1" Text="{Binding CurrentUrl}" ></TextBox>
-                    <Button Grid.Column="2" Command="{Binding GetCommand}">Get</Button>
-                    <Button Grid.Column="3" Command="{Binding GetCommand}">Post</Button>
-                    <Button Grid.Column="4" Command="{Binding GetCommand}">Put</Button>
-                    <Button Grid.Column="5" Command="{Binding GetCommand}">Delete</Button>
+                    <Label Grid.Column="0" Target="{Binding ElementName=textBoxUrl}">_Url:</Label>
+                    <TextBox x:Name="textBoxUrl" Grid.Column="1" Text="{Binding CurrentUrl}" ></TextBox>
+                    <Button Grid.Column="2" Margin="4,0,0,0" Width="40"  Command="{Binding SendRequestCommand}" CommandParameter="GET">_Get</Button>
+                    <Button Grid.Column="3" Margin="4,0,0,0" Width="40" Command="{Binding SendRequestCommand}" CommandParameter="POST">_Post</Button>
+                    <Button Grid.Column="4" Margin="4,0,0,0" Width="40" Command="{Binding SendRequestCommand}" CommandParameter="PUT">P_ut</Button>
+                    <Button Grid.Column="5" Margin="4,0,0,0" Width="40" Command="{Binding SendRequestCommand}" CommandParameter="DELETE">_Delete</Button>
                 </apexControls:ApexGrid>
             </apexControls:PaddedGrid>
                 <TextBox Grid.Row="1" AcceptsReturn="True" Text="{Binding CurrentContent}"></TextBox>
             
         </apexControls:ApexGrid>
-        
+        </apexControls:PaddedGrid>
     </apexControls:ApexGrid>
 </Window>

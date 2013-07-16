@@ -22,6 +22,16 @@ namespace JsonWPFClient
         public MainWindow()
         {
             InitializeComponent();
+
+            Loaded += MainWindow_Loaded;
         }
+
+        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(Properties.Settings.Default.LastUrl) == false)
+                ViewModel.CurrentUrl = Properties.Settings.Default.LastUrl;
+        }
+
+        public MainViewModel ViewModel { get { return (MainViewModel) DataContext; } }
     }
 }

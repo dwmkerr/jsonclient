@@ -82,16 +82,16 @@ namespace JsonWPFClient
         }
         
         /// <summary>
-        /// The NotifyingProperty for the Response property.
+        /// The NotifyingProperty for the Result property.
         /// </summary>
         private readonly NotifyingProperty ResponseProperty =
-          new NotifyingProperty("Response", typeof(string), default(string));
+          new NotifyingProperty("Result", typeof(string), default(string));
 
         /// <summary>
-        /// Gets or sets Response.
+        /// Gets or sets Result.
         /// </summary>
-        /// <value>The value of Response.</value>
-        public JsonResult Response
+        /// <value>The value of Result.</value>
+        public JsonResult Result
         {
             get { return (JsonResult)GetValue(ResponseProperty); }
             set { SetValue(ResponseProperty, value); }
@@ -134,28 +134,28 @@ namespace JsonWPFClient
             {
                 case "GET":
                     {
-                        Response = await JsonClient.JsonClient.GetAsync(Uri);
+                        Result = await JsonClient.JsonClient.GetAsync(Uri);
                         break;
                     }
                 case "POST":
                     {
-                        Response = await JsonClient.JsonClient.GetAsync(Uri);
+                        Result = await JsonClient.JsonClient.PostAsync(Uri, JsonContent);
                         break;
                     }
                 case "PUT":
                     {
-                        Response = await JsonClient.JsonClient.GetAsync(Uri);
+                        Result = await JsonClient.JsonClient.PutAsync(Uri, JsonContent);
                         break;
                     }
                 case "DELETE":
                     {
-                        Response = await JsonClient.JsonClient.GetAsync(Uri);
+                        Result = await JsonClient.JsonClient.DeleteAsync(Uri, JsonContent);
                         break;
                     }
             }
 
-            StatusCode = (int)Response.Response.StatusCode;
-            StatusCodeDescription = Response.Response.StatusDescription;
+            StatusCode = (int)Result.Respose.StatusCode;
+            StatusCodeDescription = Result.Respose.StatusDescription;
 
             IsBusy = false;
         }
@@ -168,6 +168,23 @@ namespace JsonWPFClient
         {
             get;
             private set;
+        }
+
+        
+        /// <summary>
+        /// The NotifyingProperty for the JsonContent property.
+        /// </summary>
+        private readonly NotifyingProperty JsonContentProperty =
+          new NotifyingProperty("JsonContent", typeof(string), default(string));
+
+        /// <summary>
+        /// Gets or sets JsonContent.
+        /// </summary>
+        /// <value>The value of JsonContent.</value>
+        public string JsonContent
+        {
+            get { return (string)GetValue(JsonContentProperty); }
+            set { SetValue(JsonContentProperty, value); }
         }
     }
 }
