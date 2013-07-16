@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonClient", "JsonClient\JsonClient.csproj", "{AF059818-7F8C-43D8-A322-1E2207A7CF78}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{F170C8E0-8908-429D-8406-8B94505B0CA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonClient", "Application\JsonClient\JsonClient.csproj", "{E2C0A395-91BE-4FE8-90AD-6F74FBEDB9F8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF059818-7F8C-43D8-A322-1E2207A7CF78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF059818-7F8C-43D8-A322-1E2207A7CF78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF059818-7F8C-43D8-A322-1E2207A7CF78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF059818-7F8C-43D8-A322-1E2207A7CF78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2C0A395-91BE-4FE8-90AD-6F74FBEDB9F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2C0A395-91BE-4FE8-90AD-6F74FBEDB9F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2C0A395-91BE-4FE8-90AD-6F74FBEDB9F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2C0A395-91BE-4FE8-90AD-6F74FBEDB9F8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E2C0A395-91BE-4FE8-90AD-6F74FBEDB9F8} = {F170C8E0-8908-429D-8406-8B94505B0CA7}
+	EndGlobalSection
+EndGlobal
