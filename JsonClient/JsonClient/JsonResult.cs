@@ -14,11 +14,10 @@ namespace JsonClient
     /// </summary>
     public class JsonResult
     {
-        public override string ToString()
-        {
-            return string.IsNullOrEmpty(Json) ? base.ToString() : Json;
-        }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JsonResult"/> class.
+        /// </summary>
+        /// <param name="response">The response.</param>
         internal JsonResult(HttpWebResponse response)
         {
             ReadContent(response);
@@ -26,16 +25,32 @@ namespace JsonClient
             lazyDynamic = new Lazy<dynamic>(() => string.IsNullOrEmpty(Json) ? null : System.Web.Helpers.Json.Decode(Json));
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JsonResult"/> class.
+        /// </summary>
+        /// <param name="exception">The exception.</param>
         internal JsonResult(Exception exception)
         {
             Error = exception;
-            if(exception is WebException)
+            if (exception is WebException)
             {
-                CopyResponseData(((WebException) exception).Response);
+                CopyResponseData(((WebException)exception).Response);
             }
         }
 
-        private void ReadContent(HttpWebResponse response)
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// If the instance contains Json, the Json is returned.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return string.IsNullOrEmpty(Json) ? base.ToString() : Json;
+        }
+
+        private void ReadContent(WebResponse response)
         {
             //  Do we have response content?
             string json = null;
