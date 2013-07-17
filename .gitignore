@@ -24,3 +24,4 @@ BetterMe/BetterMe/App_Data/*.mdf
 BetterMe/BetterMe/App_Data/*.ldf
 bettermeservice/node_modules
 JsonClient/packages/
+JsonClient/Tests/TestServer/node_modules

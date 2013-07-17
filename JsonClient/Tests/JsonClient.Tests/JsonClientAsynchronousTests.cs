@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace JsonClient.Tests
 {
     [TestFixture]
-    public class JsonClientSynchronousTests
+    public class JsonClientAsynchronousTests
     {
         private Process serverProcess;
         [SetUp]
@@ -27,9 +27,9 @@ namespace JsonClient.Tests
         }
 
         [Test]
-        public void CanGetPosts()
+        public async void CanGetPosts()
         {
-            var result = JsonClient.Get("http://localhost:3212/posts");
+            var result = await JsonClient.GetAsync("http://localhost:3212/posts");
             var posts = result.Dynamic;
 
             //  We should have three posts.
@@ -40,25 +40,25 @@ namespace JsonClient.Tests
         }
 
         [Test]
-        public void CanGetPost()
+        public async void CanGetPost()
         {
-            var result = JsonClient.Get("http://localhost:3212/posts/0");
+            var result = await JsonClient.GetAsync("http://localhost:3212/posts/0");
             var posts = result.Dynamic;
             Assert.AreEqual(posts.title, "Post One");
         }
 
         [Test]
-        public void CannotGetInvalidPost()
+        public async void CannotGetInvalidPost()
         {
-            var result = JsonClient.Get("http://localhost:3212/posts/99");
+            var result = await JsonClient.GetAsync("http://localhost:3212/posts/99");
             Assert.AreEqual(result.Response.StatusCode, HttpStatusCode.NotFound);
         }
 
         [Test]
-        public void CanAddPost()
+        public async void CanAddPost()
         {
             //  Add the entry.
-            var result = JsonClient.Post("http://localhost:3212/posts",
+            var result = await JsonClient.PostAsync("http://localhost:3212/posts",
                                          new
                                              {
                                                  title = "New Blog Post",
@@ -70,10 +70,10 @@ namespace JsonClient.Tests
         }
 
         [Test]
-        public void CanAddPostJson()
+        public async void CanAddPostJson()
         {
             //  Add the entry.
-            var result = JsonClient.PostJson("http://localhost:3212/posts",
+            var result = await JsonClient.PostJsonAsync("http://localhost:3212/posts",
                                          string.Format(
                                             @"{{""title"": ""New Blog Post"", 
                                             ""created"": ""{0}"", 
@@ -83,10 +83,10 @@ namespace JsonClient.Tests
         }
 
         [Test]
-        public void CanPutPost()
+        public async void CanPutPost()
         {
             //  Update post one
-            var result = JsonClient.Put("http://localhost:3212/posts/0",
+            var result = await JsonClient.PutAsync("http://localhost:3212/posts/0",
                                          new
                                          {
                                              title = "Post One Updated",
@@ -97,43 +97,43 @@ namespace JsonClient.Tests
             Assert.AreEqual(result.Response.StatusCode, HttpStatusCode.OK, "Error when putting the post.");
 
             //  Get post one.
-            result = JsonClient.Get("http://localhost:3212/posts/0");
+            result = await JsonClient.GetAsync("http://localhost:3212/posts/0");
             var post = result.Dynamic;
             Assert.AreEqual(post.title, "Post One Updated");
         }
 
         [Test]
-        public void CanPutPostJson()
+        public async void CanPutPostJson()
         {
             //  Update post one
-            var result = JsonClient.PutJson("http://localhost:3212/posts/0",
+            var result = await JsonClient.PutJsonAsync("http://localhost:3212/posts/0",
                                         @"{""title"":""Post One Updated"", ""content"":""new content""}");
 
             Assert.AreEqual(result.Response.StatusCode, HttpStatusCode.OK, "Error when putting the post.");
 
             //  Get post one.
-            result = JsonClient.Get("http://localhost:3212/posts/0");
+            result = await JsonClient.GetAsync("http://localhost:3212/posts/0");
             var post = result.Dynamic;
             Assert.AreEqual(post.title, "Post One Updated");
         }
 
         [Test]
-        public void CanDeletePost()
+        public async void CanDeletePost()
         {
             //  Delete post one
-            var result = JsonClient.Delete("http://localhost:3212/posts/0");
+            var result = await JsonClient.DeleteAsync("http://localhost:3212/posts/0");
 
             Assert.AreEqual(result.Response.StatusCode, HttpStatusCode.OK, "Error when deleting the post.");
 
             //  Make sure it's gone.
-            result = JsonClient.Get("http://localhost:3212/posts/0");
+            result = await JsonClient.GetAsync("http://localhost:3212/posts/0");
             Assert.AreEqual(result.Response.StatusCode, HttpStatusCode.NotFound, "The post wasn't deleted");
         }
 
         [Test]
-        public void CannotDeleteInvalidPost()
+        public async void CannotDeleteInvalidPost()
         {
-            var result = JsonClient.Delete("http://localhost:3212/posts/99");
+            var result = await JsonClient.DeleteAsync("http://localhost:3212/posts/99");
             Assert.AreEqual(result.Response.StatusCode, HttpStatusCode.NotFound);
         }
     }

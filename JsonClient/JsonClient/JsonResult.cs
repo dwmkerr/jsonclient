@@ -8,7 +8,7 @@ namespace JsonClient
     /// <summary>
     /// Represents the result of a call by the JsonClient.
     /// Use the <see cref="Json"/> property to get the raw Json text, the 
-    /// <see cref="Result"/> property to get the result as a dynamic object,
+    /// <see cref="Dynamic"/> property to get the result as a dynamic object,
     /// the <see cref="Response"/> property for low-level response details and the
     /// <see cref="Error"/> property to get the details of any exception that occured.
     /// </summary>
@@ -23,7 +23,7 @@ namespace JsonClient
         {
             ReadContent(response);
             CopyResponseData(response);
-            lazyResult = new Lazy<dynamic>(() => string.IsNullOrEmpty(Json) ? null : System.Web.Helpers.Json.Decode(Json));
+            lazyDynamic = new Lazy<dynamic>(() => string.IsNullOrEmpty(Json) ? null : System.Web.Helpers.Json.Decode(Json));
         }
 
         internal JsonResult(Exception exception)
@@ -82,9 +82,9 @@ namespace JsonClient
         }
 
         /// <summary>
-        /// The internally used lazy result object.
+        /// The internally used lazy dynamic result object.
         /// </summary>
-        private readonly Lazy<dynamic> lazyResult;
+        private readonly Lazy<dynamic> lazyDynamic;
 
         /// <summary>
         /// Gets the raw json result.
@@ -100,7 +100,7 @@ namespace JsonClient
         /// <value>
         /// The dynamic result result.
         /// </value>
-        public dynamic Result { get { return lazyResult.Value; } }
+        public dynamic Dynamic { get { return lazyDynamic.Value; } }
 
         /// <summary>
         /// Gets the respose object, which contains details about the response.

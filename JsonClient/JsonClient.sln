@@ -14,6 +14,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E201EE
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D3F16DA1-80CB-4F42-8D10-2EF1B62A76EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonClient.Tests", "Tests\JsonClient.Tests\JsonClient.Tests.csproj", "{31BDB557-6361-40F1-902F-5A5D02291E3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonClientLite", "JsonClientLite\JsonClientLite.csproj", "{1DA948A2-A59C-45E7-B314-C7A39958FCE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,11 +34,20 @@ Global
 		{E2C0A395-91BE-4FE8-90AD-6F74FBEDB9F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2C0A395-91BE-4FE8-90AD-6F74FBEDB9F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2C0A395-91BE-4FE8-90AD-6F74FBEDB9F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31BDB557-6361-40F1-902F-5A5D02291E3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31BDB557-6361-40F1-902F-5A5D02291E3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31BDB557-6361-40F1-902F-5A5D02291E3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31BDB557-6361-40F1-902F-5A5D02291E3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DA948A2-A59C-45E7-B314-C7A39958FCE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DA948A2-A59C-45E7-B314-C7A39958FCE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DA948A2-A59C-45E7-B314-C7A39958FCE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DA948A2-A59C-45E7-B314-C7A39958FCE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E2C0A395-91BE-4FE8-90AD-6F74FBEDB9F8} = {F170C8E0-8908-429D-8406-8B94505B0CA7}
+		{31BDB557-6361-40F1-902F-5A5D02291E3C} = {D3F16DA1-80CB-4F42-8D10-2EF1B62A76EA}
 	EndGlobalSection
 EndGlobal

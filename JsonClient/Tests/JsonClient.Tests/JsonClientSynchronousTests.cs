@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace JsonClient.Tests
 {
     [TestFixture]
-    public class JsonClientTests
+    public class JsonClientSynchronousTests
     {
         private Process serverProcess;
         [SetUp]

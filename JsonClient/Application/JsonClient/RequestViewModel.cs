@@ -82,15 +82,15 @@ namespace JsonWPFClient
         }
         
         /// <summary>
-        /// The NotifyingProperty for the Result property.
+        /// The NotifyingProperty for the Dynamic property.
         /// </summary>
         private readonly NotifyingProperty ResponseProperty =
-          new NotifyingProperty("Result", typeof(string), default(string));
+          new NotifyingProperty("Dynamic", typeof(string), default(string));
 
         /// <summary>
-        /// Gets or sets Result.
+        /// Gets or sets Dynamic.
         /// </summary>
-        /// <value>The value of Result.</value>
+        /// <value>The value of Dynamic.</value>
         public JsonResult Result
         {
             get { return (JsonResult)GetValue(ResponseProperty); }
