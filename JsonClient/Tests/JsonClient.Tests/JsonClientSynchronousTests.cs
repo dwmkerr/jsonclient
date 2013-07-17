@@ -73,7 +73,7 @@ namespace JsonClient.Tests
         public void CanAddPostJson()
         {
             //  Add the entry.
-            var result = JsonClient.PostJson("http://localhost:3212/posts",
+            var result = JsonClient.Post("http://localhost:3212/posts",
                                          string.Format(
                                             @"{{""title"": ""New Blog Post"", 
                                             ""created"": ""{0}"", 
@@ -106,7 +106,7 @@ namespace JsonClient.Tests
         public void CanPutPostJson()
         {
             //  Update post one
-            var result = JsonClient.PutJson("http://localhost:3212/posts/0",
+            var result = JsonClient.Put("http://localhost:3212/posts/0",
                                         @"{""title"":""Post One Updated"", ""content"":""new content""}");
 
             Assert.AreEqual(result.Response.StatusCode, HttpStatusCode.OK, "Error when putting the post.");

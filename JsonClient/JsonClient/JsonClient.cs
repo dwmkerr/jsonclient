@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Helpers;
 
 namespace JsonClient
 {
@@ -15,36 +10,82 @@ namespace JsonClient
     /// </summary>
     public partial class JsonClient
     {
+        /// <summary>
+        /// Perform a GET request for the specified url.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <returns>A JsonResult for the response.</returns>
         public static JsonResult Get(string url)
         {
             //  Send the request with the correct verb.
             return SendRequest(url, "GET", null, null);
         }
-        
+
+        /// <summary>
+        /// POST data to the specified url.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="data">The data, which will automatically be 
+        /// encoded as json.</param>
+        /// <returns>
+        /// A JsonResult for the response.
+        /// </returns>
         public static JsonResult Post(string url, object data)
         {
             //  Send the request with the correct verb.
             return SendRequest(url, "POST", data, null);
         }
 
+        /// <summary>
+        /// POST json to the specified url.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="json">The json data.</param>
+        /// <returns>
+        /// A JsonResult for the response.
+        /// </returns>
         public static JsonResult Post(string url, string json)
         {
             //  Send the request with the correct verb.
             return SendRequest(url, "POST", null, json);
         }
-        
+
+        /// <summary>
+        /// PUT data to the specified url.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="data">The data, which will automatically be 
+        /// encoded as json.</param>
+        /// <returns>
+        /// A JsonResult for the response.
+        /// </returns>
         public static JsonResult Put(string url, object data)
         {
             //  Send the request with the correct verb.
             return SendRequest(url, "PUT", data, null);
         }
-        
+
+        /// <summary>
+        /// PUT json to the specified url.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="json">The json data.</param>
+        /// <returns>
+        /// A JsonResult for the response.
+        /// </returns>
         public static JsonResult Put(string url, string json)
         {
             //  Send the request with the correct verb.
             return SendRequest(url, "PUT", null, json);
         }
 
+        /// <summary>
+        /// DELETE the data from the specified URL.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <returns>
+        /// A JsonResult for the response.
+        /// </returns>
         public static JsonResult Delete(string url)
         {
             //  Send the request with the correct verb.

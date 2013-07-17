@@ -139,12 +139,12 @@ namespace JsonWPFClient
                     }
                 case "POST":
                     {
-                        Result = await JsonClient.JsonClient.PostJsonAsync(Uri, JsonContent);
+                        Result = await JsonClient.JsonClient.PostAsync(Uri, JsonContent);
                         break;
                     }
                 case "PUT":
                     {
-                        Result = await JsonClient.JsonClient.PutJsonAsync(Uri, JsonContent);
+                        Result = await JsonClient.JsonClient.PutAsync(Uri, JsonContent);
                         break;
                     }
                 case "DELETE":

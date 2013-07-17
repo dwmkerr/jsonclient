@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Net;
-using System.Runtime.Serialization;
 
 namespace JsonClient
 {
@@ -32,9 +31,10 @@ namespace JsonClient
         internal JsonResult(Exception exception)
         {
             Error = exception;
-            if (exception is WebException)
+            var webException = exception as WebException;
+            if (webException != null)
             {
-                CopyResponseData(((WebException)exception).Response);
+                CopyResponseData(webException.Response);
             }
         }
 
@@ -59,7 +59,6 @@ namespace JsonClient
                 //  Read get the response stream.  
                 using (var responseStream = response.GetResponseStream())
                 {
-                    //  todo is the valid here?
                     if (responseStream == null)
                         throw new InvalidOperationException("Invalid response stream.");
                     using (var reader = new StreamReader(responseStream))
@@ -73,17 +72,20 @@ namespace JsonClient
 
         private void CopyResponseData(WebResponse response)
         {
-            Response = new ResponseDetails
-            {
-                ContentLength = response.ContentLength,
-                ContentType = response.ContentType,
-                Headers = response.Headers,
-                IsMutuallyAuthenticated = response.IsMutuallyAuthenticated,
-                ResponseUri = response.ResponseUri,
-                SupportsHeaders = response.SupportsHeaders
-            };
+            Response = new HttpResponse
+                {
+                    ContentLength = response.ContentLength,
+                    ContentType = response.ContentType,
+                    Headers = response.Headers,
+                    IsMutuallyAuthenticated = response.IsMutuallyAuthenticated,
+                    ResponseUri = response.ResponseUri
+#if LITE
+    //  Only in .NET 4.5
+                ,SupportsHeaders = response.SupportsHeaders
+#endif
+                };
             var httpResponse = response as HttpWebResponse;
-            if(httpResponse != null)
+            if (httpResponse != null)
             {
                 Response.CharacterSet = httpResponse.CharacterSet;
                 Response.ContentEncoding = httpResponse.ContentEncoding;
@@ -115,7 +117,10 @@ namespace JsonClient
         /// <value>
         /// The dynamic result result.
         /// </value>
-        public dynamic Dynamic { get { return lazyDynamic.Value; } }
+        public dynamic Dynamic
+        {
+            get { return lazyDynamic.Value; }
+        }
 
         /// <summary>
         /// Gets the respose object, which contains details about the response.
@@ -123,7 +128,7 @@ namespace JsonClient
         /// <value>
         /// The respose object, which contains details about the response.
         /// </value>
-        public ResponseDetails Response { get; internal set; }
+        public HttpResponse Response { get; internal set; }
 
         /// <summary>
         /// Gets the exception that occured during the request (if any).
@@ -132,24 +137,5 @@ namespace JsonClient
         /// The the exception that occured during the request (if any).
         /// </value>
         public Exception Error { get; internal set; }
-
-        public class ResponseDetails
-        {
-            public string CharacterSet { get; internal set;}
-            public string ContentEncoding { get; internal set;}
-            public long ContentLength { get; internal set;}
-            public string ContentType { get; internal set;}
-            public CookieCollection Cookies { get; internal set; }
-            public WebHeaderCollection Headers { get; internal set;}
-            public bool IsMutuallyAuthenticated { get; internal set;}
-            public DateTime LastModified { get; internal set;}
-            public string Method { get; internal set;}
-            public Version ProtocolVersion { get; internal set;}
-            public Uri ResponseUri { get; internal set;}
-            public string Server { get; internal set;}
-            public HttpStatusCode StatusCode { get; internal set;}
-            public string StatusDescription { get; internal set;}
-            public bool SupportsHeaders { get; internal set;}
-        }
     }
 }
