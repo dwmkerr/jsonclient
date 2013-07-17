@@ -61,7 +61,7 @@ exports.updatePost = function(request, response) {
     var id = request.params.id;
     var post = request.body;
 
-    //	Log the mission.
+    //	Log the post.
     console.log('Updating post: ' + id);
     console.log(JSON.stringify(post));
 
