@@ -16,7 +16,7 @@ namespace JsonClient
         public static async Task<JsonResult> GetAsync(string url)
         {
             //  Send the request with the correct verb.
-            return await SendRequestAsync(url, "GET", null, null);
+            return await JsonWebRequest.SendRequestAsync(url, "GET");
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace JsonClient
         public static async Task<JsonResult> PostAsync(string url, object data)
         {
             //  Send the request with the correct verb.
-            return await SendRequestAsync(url, "POST", data, null);
+            return await JsonWebRequest.SendRequestAsync(url, "POST", JsonEncoder.Encode(data));
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace JsonClient
         public static async Task<JsonResult> PostAsync(string url, string json)
         {
             //  Send the request with the correct verb.
-            return await SendRequestAsync(url, "POST", null, json);
+            return await JsonWebRequest.SendRequestAsync(url, "POST", json);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace JsonClient
         public static async Task<JsonResult> PutAsync(string url, object data)
         {
             //  Send the request with the correct verb.
-            return await SendRequestAsync(url, "PUT", data, null);
+            return await JsonWebRequest.SendRequestAsync(url, "PUT", JsonEncoder.Encode(data));
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace JsonClient
         public static async Task<JsonResult> PutAsync(string url, string json)
         {
             //  Send the request with the correct verb.
-            return await SendRequestAsync(url, "PUT", null, json);
+            return await JsonWebRequest.SendRequestAsync(url, "PUT", json);
         }
 
         /// <summary>
@@ -87,42 +87,7 @@ namespace JsonClient
         public static async Task<JsonResult> DeleteAsync(string url)
         {
             //  Send the request with the correct verb.
-            return await SendRequestAsync(url, "DELETE", null, null);
-        }
-        
-        private static async Task<JsonResult> SendRequestAsync(string url, string verb, object contentData, string contentJson)
-        {
-            //  Create the request, process the response.
-            try
-            {
-                var request = (HttpWebRequest)WebRequest.Create(url);
-                request.Method = verb;
-                request = await SetRequestContentAsync(request, contentData, contentJson);
-
-                using (var response = (HttpWebResponse)await request.GetResponseAsync())
-                    return new JsonResult(response);
-            }
-            catch (Exception exception)
-            {
-                return new JsonResult(exception);
-            }
-        }
-
-        private static async Task<HttpWebRequest> SetRequestContentAsync(HttpWebRequest request, object contentData, string contentJson)
-        {
-            if (contentData != null || contentJson != null)
-            {
-                var jsonContent = contentJson ?? Json.Encode(contentData);
-                request.ContentLength = jsonContent.Length;
-                request.ContentType = "application/json";
-                using (var stream = await request.GetRequestStreamAsync())
-                using (var writer = new StreamWriter(stream))
-                {
-                    writer.Write(jsonContent);
-                }
-            }
-
-            return request;
+            return await JsonWebRequest.SendRequestAsync(url, "DELETE");
         }
     }
 }

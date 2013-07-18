@@ -1,7 +1,7 @@
 # jsonclient #
 
-JsonClient .NET is a lightweight .NET class library that lets you access Json web services. It's asynchronous, it's
-dynamic and it's simple.
+JsonClient is a lightweight .NET class library that lets you access Json web services. It's asynchronous, it's
+dynamic, it's simple.
 
 ## Installation ##
 
@@ -91,3 +91,9 @@ always get the exception object if you need it:
 ```c#
 var theException = result.Error;
 ```
+
+## Building the Code ##
+
+If you want to build the code or change it, just fork and go! There are only two things to remember: To run
+the unit tests, you'll need to have Node.js installed (because the unit tests run against a server that runs
+on Node.js), also, you'll need to enable Nuget Package Restore to build the examples or the client application.

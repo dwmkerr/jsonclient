@@ -58,11 +58,14 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="JsonWebRequestAsync.cs" />
     <Compile Include="HttpResponse.cs" />
     <Compile Include="JsonClientAsync.cs" />
     <Compile Include="JsonClient.cs" />
+    <Compile Include="JsonWebClient.cs" />
     <Compile Include="JsonEncoder.cs" />
     <Compile Include="JsonResult.cs" />
+    <Compile Include="JsonWebRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

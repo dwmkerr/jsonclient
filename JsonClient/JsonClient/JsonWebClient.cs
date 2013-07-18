@@ -1,24 +1,44 @@
 ﻿using System;
-using System.IO;
-using System.Net;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace JsonClient
 {
     /// <summary>
-    /// The JsonClient is a lightweight class that lets you make calls 
-    /// to Json Web APIs.
+    /// The JsonWebClient allows more control over Json requests 
+    /// than the static methods offered in the JsonClient class.
+    /// The JsonWebClient allows the requests to be fully customised.
     /// </summary>
-    public partial class JsonClient
+    public class JsonWebClient
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JsonWebClient"/> class.
+        /// </summary>
+        public JsonWebClient()
+        {
+            
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JsonWebClient"/> class.
+        /// </summary>
+        /// <param name="serviceRoot">The service root.</param>
+        public JsonWebClient(string serviceRoot)
+        {
+            serviceUri = new Uri(serviceRoot);
+        }
+
         /// <summary>
         /// Perform a GET request for the specified url.
         /// </summary>
         /// <param name="url">The URL.</param>
         /// <returns>A JsonResult for the response.</returns>
-        public static JsonResult Get(string url)
+        public JsonResult Get(string url)
         {
             //  Send the request with the correct verb.
-            return JsonWebRequest.SendRequest(url, "GET");
+            return JsonWebRequest.SendRequest(BuildUrl(url), "GET");
         }
 
         /// <summary>
@@ -30,10 +50,10 @@ namespace JsonClient
         /// <returns>
         /// A JsonResult for the response.
         /// </returns>
-        public static JsonResult Post(string url, object data)
+        public JsonResult Post(string url, object data)
         {
             //  Send the request with the correct verb.
-            return JsonWebRequest.SendRequest(url, "POST", JsonEncoder.Encode(data));
+            return JsonWebRequest.SendRequest(BuildUrl(url), "POST", JsonEncoder.Encode(data));
         }
 
         /// <summary>
@@ -44,10 +64,10 @@ namespace JsonClient
         /// <returns>
         /// A JsonResult for the response.
         /// </returns>
-        public static JsonResult Post(string url, string json)
+        public JsonResult Post(string url, string json)
         {
             //  Send the request with the correct verb.
-            return JsonWebRequest.SendRequest(url, "POST", json);
+            return JsonWebRequest.SendRequest(BuildUrl(url), "POST", json);
         }
 
         /// <summary>
@@ -59,11 +79,11 @@ namespace JsonClient
         /// <returns>
         /// A JsonResult for the response.
         /// </returns>
-        public static JsonResult Put(string url, object data)
+        public JsonResult Put(string url, object data)
         {
             //  Send the request with the correct verb.
-            return JsonWebRequest.SendRequest(url, "PUT", JsonEncoder.Encode(data));
-        } 
+            return JsonWebRequest.SendRequest(BuildUrl(url), "PUT", JsonEncoder.Encode(data));
+        }
 
         /// <summary>
         /// PUT json to the specified url.
@@ -73,10 +93,10 @@ namespace JsonClient
         /// <returns>
         /// A JsonResult for the response.
         /// </returns>
-        public static JsonResult Put(string url, string json)
+        public JsonResult Put(string url, string json)
         {
             //  Send the request with the correct verb.
-            return JsonWebRequest.SendRequest(url, "PUT", json);
+            return JsonWebRequest.SendRequest(BuildUrl(url), "PUT", json);
         }
 
         /// <summary>
@@ -86,10 +106,22 @@ namespace JsonClient
         /// <returns>
         /// A JsonResult for the response.
         /// </returns>
-        public static JsonResult Delete(string url)
+        public JsonResult Delete(string url)
         {
             //  Send the request with the correct verb.
-            return JsonWebRequest.SendRequest(url, "DELETE");
+            return JsonWebRequest.SendRequest(BuildUrl(url), "DELETE");
         }
+
+        /// <summary>
+        /// Builds the URL from the service root and the provided relative path.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <returns>The url.</returns>
+        private string BuildUrl(string url)
+        {
+            return serviceUri == null ? url : new Uri(serviceUri, url).ToString();
+        }
+
+        private readonly Uri serviceUri;
     }
 }
