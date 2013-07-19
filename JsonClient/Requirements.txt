@@ -1,0 +1,3 @@
+* Simple/Advanced tab in the control section.
+  The advanced tab lets you specify a root url, custom headers etc.
+* mongovue style auto lint of json content
