@@ -132,6 +132,21 @@ namespace JsonClient.Tests
         }
 
         [Test]
+        public void CanPutPostJsonViaRequest()
+        {
+            //  Update post one
+            var result = JsonClient.Request("PUT", "http://localhost:3212/posts/0",
+                                        @"{""title"":""Post One Updated"", ""content"":""new content""}");
+
+            Assert.AreEqual(result.Response.StatusCode, HttpStatusCode.OK, "Error when putting the post.");
+
+            //  Get post one.
+            result = JsonClient.Request("GET", "http://localhost:3212/posts/0");
+            var post = result.Dynamic;
+            Assert.AreEqual(post.title, "Post One Updated");
+        }
+
+        [Test]
         public void CanDeletePost()
         {
             //  Delete post one

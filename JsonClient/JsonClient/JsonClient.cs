@@ -23,6 +23,36 @@ namespace JsonClient
         }
 
         /// <summary>
+        /// Perform a request using the provided verb, such as GET to the specified url.
+        /// </summary>
+        /// <param name="verb">The verb.</param>
+        /// <param name="url">The URL.</param>
+        /// <param name="data">The data.</param>
+        /// <returns>
+        /// A JsonResult for the response.
+        /// </returns>
+        public static JsonResult Request(string verb, string url, object data)
+        {
+            //  Send the request with the correct verb.
+            return JsonWebRequest.SendRequest(url, verb, JsonEncoder.Encode(data));
+        }
+
+        /// <summary>
+        /// Perform a request using the provided verb, such as GET to the specified url.
+        /// </summary>
+        /// <param name="verb">The verb.</param>
+        /// <param name="url">The URL.</param>
+        /// <param name="json">The json.</param>
+        /// <returns>
+        /// A JsonResult for the response.
+        /// </returns>
+        public static JsonResult Request(string verb, string url, string json)
+        {
+            //  Send the request with the correct verb.
+            return JsonWebRequest.SendRequest(url, verb, json);
+        }
+
+        /// <summary>
         /// Perform a GET request for the specified url.
         /// </summary>
         /// <param name="url">The URL.</param>
