@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JsonClientErrorHandlingTests.cs" />
     <Compile Include="JsonClientAsynchronousTests.cs" />
     <Compile Include="JsonClientSynchronousTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

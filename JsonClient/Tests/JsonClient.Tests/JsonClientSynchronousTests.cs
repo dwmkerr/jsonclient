@@ -13,6 +13,7 @@ namespace JsonClient.Tests
     public class JsonClientSynchronousTests
     {
         private Process serverProcess;
+
         [SetUp]
         public void RunBeforeAnyTests()
         {
@@ -30,6 +31,19 @@ namespace JsonClient.Tests
         public void CanGetPosts()
         {
             var result = JsonClient.Get("http://localhost:3212/posts");
+            var posts = result.Dynamic;
+
+            //  We should have three posts.
+            Assert.AreEqual(result.Response.StatusCode, HttpStatusCode.OK, "Error getting the posts.");
+            Assert.AreEqual(posts[0].title, "Post One");
+            Assert.AreEqual(posts[1].title, "Post Two");
+            Assert.AreEqual(posts[2].title, "Post Three");
+        }
+
+        [Test]
+        public void CanGetPostsWithRequest()
+        {
+            var result = JsonClient.Request("GET", "http://localhost:3212/posts");
             var posts = result.Dynamic;
 
             //  We should have three posts.

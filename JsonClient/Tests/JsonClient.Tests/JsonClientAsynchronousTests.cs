@@ -40,6 +40,19 @@ namespace JsonClient.Tests
         }
 
         [Test]
+        public async void CanGetPostsWithRequest()
+        {
+            var result = await JsonClient.RequestAsync("GET", "http://localhost:3212/posts");
+            var posts = result.Dynamic;
+
+            //  We should have three posts.
+            Assert.AreEqual(result.Response.StatusCode, HttpStatusCode.OK, "Error getting the posts.");
+            Assert.AreEqual(posts[0].title, "Post One");
+            Assert.AreEqual(posts[1].title, "Post Two");
+            Assert.AreEqual(posts[2].title, "Post Three");
+        }
+
+        [Test]
         public async void CanGetPost()
         {
             var result = await JsonClient.GetAsync("http://localhost:3212/posts/0");

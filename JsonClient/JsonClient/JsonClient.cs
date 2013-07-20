@@ -11,6 +11,18 @@ namespace JsonClient
     public partial class JsonClient
     {
         /// <summary>
+        /// Perform a request using the provided verb, such as GET to the specified url.
+        /// </summary>
+        /// <param name="verb">The verb.</param>
+        /// <param name="url">The URL.</param>
+        /// <returns>A JsonResult for the response.</returns>
+        public static JsonResult Request(string verb, string url)
+        {
+            //  Send the request with the correct verb.
+            return JsonWebRequest.SendRequest(url, verb);
+        }
+
+        /// <summary>
         /// Perform a GET request for the specified url.
         /// </summary>
         /// <param name="url">The URL.</param>

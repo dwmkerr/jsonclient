@@ -32,10 +32,11 @@ namespace JsonClient
         {
             Error = exception;
             var webException = exception as WebException;
-            if (webException != null)
+            if (webException != null && webException.Response != null)
             {
                 CopyResponseData(webException.Response);
             }
+            lazyDynamic = new Lazy<dynamic>(() => string.IsNullOrEmpty(Json) ? null : System.Web.Helpers.Json.Decode(Json));
         }
 
         /// <summary>
