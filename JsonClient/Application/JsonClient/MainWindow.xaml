@@ -4,7 +4,7 @@
         xmlns:apexControls="clr-namespace:Apex.Controls;assembly=Apex" xmlns:jsonClient="clr-namespace:JsonClient"
         xmlns:jsonWpfClient="clr-namespace:JsonWPFClient"
         xmlns:apexConverters="clr-namespace:Apex.Converters;assembly=Apex"
-        Title="JsonClient" Height="600" Width="800">
+        Title="JsonClient" Height="600" Width="800" Icon="JsonClient.ico">
     
     
     <Window.DataContext>
