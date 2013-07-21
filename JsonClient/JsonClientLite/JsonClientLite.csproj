@@ -55,6 +55,9 @@
     <Compile Include="..\JsonClient\JsonResult.cs">
       <Link>JsonResult.cs</Link>
     </Compile>
+    <Compile Include="..\JsonClient\JsonWebClient.cs">
+      <Link>JsonWebClient.cs</Link>
+    </Compile>
     <Compile Include="..\JsonClient\JsonWebRequest.cs">
       <Link>JsonWebRequest.cs</Link>
     </Compile>

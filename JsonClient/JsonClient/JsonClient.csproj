@@ -58,6 +58,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="JsonWebClientAsync.cs" />
     <Compile Include="JsonWebRequestAsync.cs" />
     <Compile Include="HttpResponse.cs" />
     <Compile Include="JsonClientAsync.cs" />

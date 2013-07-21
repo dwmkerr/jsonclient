@@ -4,7 +4,7 @@
         xmlns:apexControls="clr-namespace:Apex.Controls;assembly=Apex" xmlns:jsonClient="clr-namespace:JsonClient"
         xmlns:jsonWpfClient="clr-namespace:JsonWPFClient"
         xmlns:apexConverters="clr-namespace:Apex.Converters;assembly=Apex"
-        Title="JsonClient" Height="600" Width="800" Icon="JsonClient.ico">
+        xmlns:AdvancedRequest="clr-namespace:JsonWPFClient.AdvancedRequest" Title="JsonClient" Height="600" Width="800" Icon="JsonClient.ico">
     
     
     <Window.DataContext>
@@ -97,7 +97,7 @@
                     </apexControls:ApexGrid>
                 </TabItem>
                 <TabItem Header="Advanced">
-                    
+                    <AdvancedRequest:AdvancedRequestView x:Name="advancedRequestView" />
                 </TabItem>
             </TabControl>
             

@@ -34,5 +34,17 @@ namespace JsonWPFClient.Properties {
                 this["LastUrl"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastAdvancedRequestUrl {
+            get {
+                return ((string)(this["LastAdvancedRequestUrl"]));
+            }
+            set {
+                this["LastAdvancedRequestUrl"] = value;
+            }
+        }
     }
 }

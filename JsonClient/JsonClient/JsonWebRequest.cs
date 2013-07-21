@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 
@@ -15,12 +16,22 @@ namespace JsonClient
         /// <param name="url">The URL.</param>
         /// <param name="verb">The verb.</param>
         /// <param name="content">The content.</param>
-        /// <returns>The json result.</returns>
-        internal static JsonResult SendRequest(string url, string verb, string content = null)
+        /// <param name="headers">The headers to include in the request.</param>
+        /// <returns>
+        /// The json result.
+        /// </returns>
+        internal static JsonResult SendRequest(string url, string verb, string content = null, Dictionary<string, string> headers = null)
         {
             //  Create the request.
             var request = (HttpWebRequest) WebRequest.Create(url);
             request.Method = verb;
+            
+            //  Add custom headers.
+            if(headers != null)
+            {
+                foreach(var headerKey in headers.Keys)
+                    request.Headers.Add(headerKey, headers[headerKey]);
+            }
 
             //  If there is any content, set it.
             if (string.IsNullOrEmpty(content) == false)

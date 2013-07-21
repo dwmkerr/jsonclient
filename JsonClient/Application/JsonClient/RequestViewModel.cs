@@ -130,26 +130,42 @@ namespace JsonWPFClient
         {
             IsBusy = true;
 
+            var client = new JsonWebClient();
+
+            //  Get the headers as a dictionary.
+            var headers = new Dictionary<string, string>();
+            if(Headers != null)
+            {
+                var lines = Headers.Split('\n');
+                foreach(var line in lines)
+                {
+                    int colon = line.IndexOf(':');
+                    if(colon == -1) continue;
+                    client.Headers[line.Substring(0, colon)] = line.Substring(colon + 1);
+                }
+            }
+            
+
             switch (Verb)
             {
                 case "GET":
                     {
-                        Result = await JsonClient.JsonClient.GetAsync(Uri);
+                        Result = await client.GetAsync(Uri);
                         break;
                     }
                 case "POST":
                     {
-                        Result = await JsonClient.JsonClient.PostAsync(Uri, JsonContent);
+                        Result = await client.PostAsync(Uri, JsonContent);
                         break;
                     }
                 case "PUT":
                     {
-                        Result = await JsonClient.JsonClient.PutAsync(Uri, JsonContent);
+                        Result = await client.PutAsync(Uri, JsonContent);
                         break;
                     }
                 case "DELETE":
                     {
-                        Result = await JsonClient.JsonClient.DeleteAsync(Uri);
+                        Result = await client.DeleteAsync(Uri);
                         break;
                     }
             }
@@ -192,6 +208,23 @@ namespace JsonWPFClient
         {
             get { return (string)GetValue(JsonContentProperty); }
             set { SetValue(JsonContentProperty, value); }
+        }
+
+        
+        /// <summary>
+        /// The NotifyingProperty for the Headers property.
+        /// </summary>
+        private readonly NotifyingProperty HeadersProperty =
+          new NotifyingProperty("Headers", typeof(string), default(string));
+
+        /// <summary>
+        /// Gets or sets Headers.
+        /// </summary>
+        /// <value>The value of Headers.</value>
+        public string Headers
+        {
+            get { return (string)GetValue(HeadersProperty); }
+            set { SetValue(HeadersProperty, value); }
         }
     }
 }
