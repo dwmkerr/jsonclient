@@ -4,7 +4,9 @@
         xmlns:apexControls="clr-namespace:Apex.Controls;assembly=Apex" xmlns:jsonClient="clr-namespace:JsonClient"
         xmlns:jsonWpfClient="clr-namespace:JsonWPFClient"
         xmlns:apexConverters="clr-namespace:Apex.Converters;assembly=Apex"
-        xmlns:AdvancedRequest="clr-namespace:JsonWPFClient.AdvancedRequest" Title="JsonClient" Height="600" Width="800" Icon="JsonClient.ico">
+        xmlns:AdvancedRequest="clr-namespace:JsonWPFClient.AdvancedRequest"
+        xmlns:SimpleRequest="clr-namespace:JsonWPFClient.SimpleRequest" Title="JsonClient" Height="600" Width="800" Icon="JsonClient.ico"
+        Background="#fafafa">
     
     
     <Window.DataContext>
@@ -20,10 +22,7 @@
         <apexControls:ApexGrid Columns="400,Auto,*">
             
             <apexControls:PaddedGrid Padding="4" Rows="Auto,*">
-                <TextBlock TextWrapping="Wrap">
-                    <Run FontSize="20" FontWeight="SemiBold">Requests</Run> 
-                    <Run FontSize="10" Foreground="#999999">All requests sent are shown below</Run>
-                </TextBlock>
+                <TextBlock TextWrapping="Wrap">Requests</TextBlock>
                 <ListView Grid.Row="1" ItemsSource="{Binding Requests}" SelectedItem="{Binding SelectedRequest}">
                     <ListView.Resources>
                         <Style TargetType="ListViewItem">
@@ -58,10 +57,7 @@
             <GridSplitter Grid.Column="1" Width="5" ResizeBehavior="PreviousAndNext" ResizeDirection="Columns" />
 
             <apexControls:PaddedGrid Grid.Column="2" Padding="4" Rows="Auto,*">
-                <TextBlock TextWrapping="Wrap">
-                    <Run FontSize="20" FontWeight="SemiBold">Details</Run> 
-                    <Run FontSize="10" Foreground="#999999">Select a request to see it's details</Run>
-                </TextBlock>
+                <TextBlock TextWrapping="Wrap">Request Details</TextBlock>
                 <TextBox 
                     Grid.Row="1" IsReadOnly="True" Text="{Binding SelectedRequest.Result.Json, Mode=OneWay}" 
                     VerticalScrollBarVisibility="Auto" FontFamily="Consolas" />
@@ -72,31 +68,12 @@
 
         <GridSplitter Grid.Row="1" Height="5" Background="#eeeeee" ResizeBehavior="PreviousAndNext" ResizeDirection="Rows"></GridSplitter>
 
-        <apexControls:PaddedGrid Grid.Row="2" Padding="4" Rows="Auto,*">
-            <TextBlock TextWrapping="Wrap">
-                    <Run FontSize="20" FontWeight="SemiBold">Create Request</Run> 
-                    <Run FontSize="10" Foreground="#999999">Enter the url, content and click a verb to send the request</Run>
-            </TextBlock>
-            
-            <TabControl Grid.Row="2">
-                <TabItem Header="Simple">
-                    <apexControls:ApexGrid Rows="Auto,*">
-
-                        <apexControls:PaddedGrid Grid.Row="0" Padding="4" >
-                            <apexControls:ApexGrid Columns="Auto,*,Auto,Auto,Auto,Auto">
-                                <Label Grid.Column="0" Target="{Binding ElementName=textBoxUrl}">_Url:</Label>
-                                <TextBox x:Name="textBoxUrl" Grid.Column="1" Text="{Binding CurrentUrl}" ></TextBox>
-                                <Button Grid.Column="2" Margin="4,0,0,0" Width="40"  Command="{Binding SendRequestCommand}" CommandParameter="GET">_Get</Button>
-                                <Button Grid.Column="3" Margin="4,0,0,0" Width="40" Command="{Binding SendRequestCommand}" CommandParameter="POST">_Post</Button>
-                                <Button Grid.Column="4" Margin="4,0,0,0" Width="40" Command="{Binding SendRequestCommand}" CommandParameter="PUT">P_ut</Button>
-                                <Button Grid.Column="5" Margin="4,0,0,0" Width="40" Command="{Binding SendRequestCommand}" CommandParameter="DELETE">_Delete</Button>
-                            </apexControls:ApexGrid>
-                        </apexControls:PaddedGrid>
-                        <TextBox Grid.Row="1" AcceptsReturn="True" FontFamily="Consolas" Text="{Binding CurrentContent}"></TextBox>
-
-                    </apexControls:ApexGrid>
+        <apexControls:PaddedGrid Grid.Row="2" Padding="4" Rows="*">
+            <TabControl Grid.Row="0">
+                <TabItem Header="Create Simple Request">
+                    <SimpleRequest:SimpleRequestView x:Name="simpleRequestView" />
                 </TabItem>
-                <TabItem Header="Advanced">
+                <TabItem Header="Create Advanced Request">
                     <AdvancedRequest:AdvancedRequestView x:Name="advancedRequestView" />
                 </TabItem>
             </TabControl>

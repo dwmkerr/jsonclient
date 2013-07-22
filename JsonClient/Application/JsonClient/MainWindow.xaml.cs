@@ -30,7 +30,9 @@ namespace JsonWPFClient
         {
             if (string.IsNullOrEmpty(Properties.Settings.Default.LastUrl) == false)
                 ViewModel.CurrentUrl = Properties.Settings.Default.LastUrl;
+            simpleRequestView.ViewModel.RequestManager = ViewModel;
             advancedRequestView.ViewModel.RequestManager = ViewModel;
+
         }
 
         public MainViewModel ViewModel { get { return (MainViewModel) DataContext; } }

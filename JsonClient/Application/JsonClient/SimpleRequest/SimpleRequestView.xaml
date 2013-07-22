@@ -1,17 +1,17 @@
-﻿<UserControl x:Class="JsonWPFClient.AdvancedRequest.AdvancedRequestView"
+﻿<UserControl x:Class="JsonWPFClient.SimpleRequest.SimpleRequestView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:JsonWPFClient.AdvancedRequest"
+             xmlns:local="clr-namespace:JsonWPFClient.SimpleRequest"
              xmlns:apexControls="clr-namespace:Apex.Controls;assembly=Apex" mc:Ignorable="d" 
              d:DesignHeight="120" d:DesignWidth="600">
     <UserControl.DataContext>
-        <local:AdvancedRequestViewModel />
+        <local:SimpleRequestViewModel />
     </UserControl.DataContext>
     
     <!-- Main grid.-->
-    <apexControls:PaddedGrid Padding="4" Rows="Auto,*,Auto">
+    <apexControls:PaddedGrid Padding="4" Rows="Auto,*">
 
         <apexControls:ApexGrid Grid.Row="0">
             <apexControls:ApexGrid Columns="Auto,*,Auto,Auto,Auto,Auto">
@@ -21,20 +21,13 @@
                 <Button Grid.Column="3" Margin="4,0,0,0" Width="40" Command="{Binding SendRequestCommand}" CommandParameter="POST">_Post</Button>
                 <Button Grid.Column="4" Margin="4,0,0,0" Width="40" Command="{Binding SendRequestCommand}" CommandParameter="PUT">P_ut</Button>
                 <Button Grid.Column="5" Margin="4,0,0,0" Width="40" Command="{Binding SendRequestCommand}" CommandParameter="DELETE">_Delete</Button>
-                <Button Grid.Column="4" Margin="4,0,0,0" Width="40" Command="{Binding SendRequestCommand}" CommandParameter="PATCH">P_atch</Button>
             </apexControls:ApexGrid>
         </apexControls:ApexGrid>
-        <apexControls:ApexGrid Grid.Row="1" Columns="Auto,*,Auto,*">
+
+        <!-- Request settings. -->
+        <apexControls:ApexGrid Grid.Row="1" Columns="Auto,*">
             <Label Grid.Column="0" Width="60">Content:</Label>
             <TextBox Grid.Column="1" AcceptsReturn="True" FontFamily="Consolas" Text="{Binding Content}"></TextBox>
-            <Label Grid.Column="2" Width="60">Headers:</Label>
-            <TextBox Grid.Column="3" AcceptsReturn="True" FontFamily="Consolas" Text="{Binding Headers}"></TextBox>
-        </apexControls:ApexGrid>
-        <apexControls:ApexGrid Grid.Row="2" Columns="Auto,*">
-            <Label Grid.Column="0" Width="60">Helpers:</Label>
-            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock><Hyperlink x:Name="hyperlinkAddBasicAuthHeader" Click="HyperlinkAddBasicAuthHeader_OnClick">Add Basic Authorisation Header</Hyperlink></TextBlock>
-            </StackPanel>
         </apexControls:ApexGrid>
     </apexControls:PaddedGrid>
 </UserControl>
