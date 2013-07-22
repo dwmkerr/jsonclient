@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Apex.MVVM;
+using JsonClient;
 
 namespace JsonWPFClient.AdvancedRequest
 {
@@ -28,5 +29,18 @@ namespace JsonWPFClient.AdvancedRequest
         }
 
         public AdvancedRequestViewModel ViewModel { get { return (AdvancedRequestViewModel) DataContext; } }
+
+        private void HyperlinkAddBasicAuthHeader_OnClick(object sender, RoutedEventArgs e)
+        {
+            var window = new CreateBasicAuth.BuildBasicAuthWindow();
+            if (window.ShowDialog() == true)
+            {
+                var newHeader = HeaderHelper.BuildBasicAuthHeader(window.Username, window.Password) + System.Environment.NewLine;
+                if (string.IsNullOrEmpty(ViewModel.Headers))
+                    ViewModel.Headers = newHeader;
+                else
+                    ViewModel.Headers = ViewModel.Headers.Insert(0, newHeader);
+            }
+        }
     }
 }

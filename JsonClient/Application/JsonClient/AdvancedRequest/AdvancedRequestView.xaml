@@ -33,7 +33,10 @@
             <TabItem Header="Headers">
                 <apexControls:ApexGrid Rows="*,Auto">
                     <TextBox AcceptsReturn="True" FontFamily="Consolas" Text="{Binding Headers}"></TextBox>
-                    <TextBlock Grid.Row="1" FontSize="12">e.g: Authentication: Basic xxx</TextBlock>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <TextBlock Grid.Row="1" FontSize="12">e.g: Authentication: Basic xxx</TextBlock>
+                        <TextBlock Margin="12,0,0,0"><Hyperlink x:Name="hyperlinkAddBasicAuthHeader" Click="HyperlinkAddBasicAuthHeader_OnClick">Add Basic Auth Header</Hyperlink></TextBlock>
+                    </StackPanel>
                 </apexControls:ApexGrid>
             </TabItem>
         </TabControl>

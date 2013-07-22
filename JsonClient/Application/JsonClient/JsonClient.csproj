@@ -79,8 +79,16 @@
       <DependentUpon>AdvancedRequestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdvancedRequest\AdvancedRequestViewModel.cs" />
+    <Compile Include="CreateBasicAuth\BuildBasicAuthWindow.xaml.cs">
+      <DependentUpon>BuildBasicAuthWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="IRequestManager.cs" />
     <Compile Include="RequestViewModel.cs" />
     <Page Include="AdvancedRequest\AdvancedRequestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CreateBasicAuth\BuildBasicAuthWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -8,7 +8,7 @@ using Apex.MVVM;
 namespace JsonWPFClient
 {
     [ViewModel]
-    public class MainViewModel : ViewModel
+    public class MainViewModel : ViewModel, IRequestManager
     {
         public MainViewModel()
         {
@@ -116,5 +116,11 @@ namespace JsonWPFClient
         /// </summary>
         /// <value>The value of .</value>
         public Command SendRequestCommand { get; private set; }
-}
+
+        public void AddRequest(RequestViewModel requestViewModel)
+        {
+            Requests.Add(requestViewModel);
+            SelectedRequest = requestViewModel;
+        }
+    }
 }

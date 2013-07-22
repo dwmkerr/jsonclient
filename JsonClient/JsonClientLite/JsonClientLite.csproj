@@ -43,6 +43,9 @@
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\JsonClient\HeaderHelper.cs">
+      <Link>HeaderHelper.cs</Link>
+    </Compile>
     <Compile Include="..\JsonClient\HttpResponse.cs">
       <Link>HttpResponse.cs</Link>
     </Compile>

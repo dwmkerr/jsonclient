@@ -71,16 +71,17 @@ namespace JsonWPFClient.AdvancedRequest
         /// <param name="parameter">The SendRequest command parameter.</param>
         private void DoSendRequestCommand(object parameter)
         {
-            /* todo
             var verb = parameter.ToString();
-            var request = new RequestViewModel { Uri = CurrentUrl, Verb = verb, JsonContent = CurrentContent };
-            Requests.Add(request);
+            var request = new RequestViewModel { Uri = Url, Verb = verb, JsonContent = Content, Headers = Headers};
+
+            if (RequestManager != null)
+                RequestManager.AddRequest(request);
             request.DoRequestCommand.DoExecute();
-            SelectedRequest = request;
+
 
             //  Save the command for the last url.
-            Properties.Settings.Default.LastAdvancedRequestUrl = CurrentUrl;
-            Properties.Settings.Default.Save();*/
+            Properties.Settings.Default.LastAdvancedRequestUrl = Url;
+            Properties.Settings.Default.Save();
         }
 
         /// <summary>
@@ -92,5 +93,7 @@ namespace JsonWPFClient.AdvancedRequest
             get;
             private set;
         }
+
+        public IRequestManager RequestManager { get; set; }
     }
 }
