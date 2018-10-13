@@ -1,5 +1,7 @@
 # jsonclient #
 
+[![GuardRails badge](https://badges.production.guardrails.io/dwmkerr/jsonclient.svg)](https://www.guardrails.io)
+
 JsonClient is a lightweight .NET class library that lets you access Json web services. It's asynchronous, it's
 dynamic, it's simple.
 
